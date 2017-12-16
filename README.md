@@ -14,7 +14,7 @@ Create issues in this repo to define any manner of task associated with Immutabi
 * [Guide to setting up Private Ethereum Blockchain](https://github.com/immutability-org/ethereum)
 * [Immutability's Slack Channel](https://immutability.slack.com)
 * [Vault-Ethereum Plugin](https://github.com/immutability-io/vault-ethereum)
-* [Vault with Github MFA](https://github.com/immutability-io/vault) [PR here](https://github.com/hashicorp/vault/pull/3696)
+* [Vault with Github MFA](https://github.com/immutability-io/vault) ([PR here](https://github.com/hashicorp/vault/pull/3696))
 
 ## Links to Related Materials
 
