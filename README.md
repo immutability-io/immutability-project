@@ -1,4 +1,4 @@
-![Immutability](/doc/tagline.png?raw=true "Changes Everything")
+![Immutability](/docs/tagline.png?raw=true "Changes Everything")
 
 # immutability-project
 
