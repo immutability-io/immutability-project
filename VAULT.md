@@ -6,7 +6,7 @@ So, I have tried to create a very simple, dependency-lite, install of Vault that
 
 ## Installation script
 
-The provided installation script, `[install_vault.sh](/scripts/install_vault.sh)`, does the following:
+The provided installation script, [install_vault.sh](/scripts/install_vault.sh), does the following:
 
 * Creates a self-signed CA Certificate and TLS keypair for Vault TLS.
 * Downloads and installs the current (0.9.2) version of [HashiCorp Vault](https://www.vaultproject.io/downloads.html) into `/usr/local/bin`. The script uses Keybase to verify the SHA256SUM signature on the Vault release.
