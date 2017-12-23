@@ -1,3 +1,5 @@
+![Immutability](/docs/tagline.png?raw=true "Changes Everything")
+
 # INSTALL VAULT AND VAULT-ETHEREUM PLUG-IN
 
 HashiCorp Vault is a fantastic tool for managing secrets. It is one of those tools that can be daunting to use for a newbie - but, it reveals its elegance over and over through extensive use. HashiCorp provides a very simple mechanism to setup Vault in [developer mode for educational sake](https://www.vaultproject.io/docs/concepts/dev-server.html). I don't leverage this because learning vault in `dev` mode makes it difficult to transition to a production environment wherein you are using plugins. The documentation supporting plugin development and usage is very slight and doesn't help much when you are running Vault in a realistic environment.

@@ -64,4 +64,4 @@ Service: 1.0.38-20171220205307+f5d54bc77
 That's it for the dependencies, let's have some fun.
 
 1. [INSTALL VAULT AND VAULT-ETHEREUM PLUG-IN](./VAULT.md)
-1. INSTALL ETHEREUM
+1. [INSTALL ETHEREUM](./ETHEREUM.md)
