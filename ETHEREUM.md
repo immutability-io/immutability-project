@@ -140,7 +140,92 @@ It is fun to look at the state of your Ethereum network, even if it only (in thi
 
 ![Ethereuem Network Stats](/docs/ethstats.png?raw=true "Ethereuem Network Stats")
 
+At some point, I want to integrate **real service discovery** into this private Ethereum ecosystem. (I.e., I want to make everything use [HashiCorp Consul](https://www.consul.io/).) At present, we have to deal with the static nature of the toolset.
 
+The Ethereum Network Stats system is composed of 2 components:
+
+1. The data collection/analysis component: [Ethereum Network Intelligence API](https://github.com/immutability-io/eth-net-intelligence-api)
+2. The visualization portal: [Ethereum Network Stats](https://github.com/immutability-io/eth-netstats)
+
+This system works as follows:
+
+* The Ethereum Network Intelligence API component monitors the nodes in the Ethereum network.
+* The Ethereum Network Intelligence API sends data (via WebSockets) to the Ethereum Network Stats portal.
+* The Ethereum Network Intelligence API authenticates to the Ethereum Network Stats portal via a shared secret: `WS_SECRET`. The secret is encoded into the configuration file for the Ethereum Network Intelligence API and passed into the environment of the Ethereum Network Stats portal.
+
+#### Docker DNS
+
+The Ethereum Network Intelligence API needs to know the network addresses of the nodes in the Ethereum network as well as the Ethereum Network Stats portal. We leverage Docker DNS to make this a little more elegant. Therefore it is important to use the `--network-alias` in your `docker run` commands.
+
+##### Ethereum Network Stats portal
+
+First generate a secret. I use a [simple little utility to generate strong passphrases](https://github.com/immutability-io/pass):
+
+```sh
+$ WS_SECRET=$(pass -separator -)
+$ echo $WS_SECRET
+fiftieth-marry-patronize-barrack-parish-denim
+```
+
+Now start the portal. We expose `port 3000` on the container. The DNS name for the portal is `ethstats`:
+
+```sh
+$ docker run -d -p 3000:3000  --network ethereum --name=ethstats --network-alias=ethstats -e WS_SECRET=$WS_SECRET immutability/ethstats
+```
+
+##### Ethereum Network Intelligence API
+
+Because of the static nature of service discovery with these tools, the Ethereum Network Intelligence API should be run after the portal (above) is started. You need to provide a configuration file that tells the Ethereum Network Intelligence API what endpoints it should connect to. This file will depend on your individual configuration. Mine (which should be compatible with yours if you followed the above steps exactly) looks like (note the use of Docker DNS):
+
+```sh
+$ cat ../app.json
+[
+  {
+    "name": "ethereum-wallet",
+    "cwd": ".",
+    "script": "app.js",
+    "log_date_format": "YYYY-MM-DD HH:mm Z",
+    "merge_logs": false,
+    "watch": false,
+    "exec_interpreter": "node",
+    "exec_mode": "fork_mode",
+    "env": {
+      "NODE_ENV": "private",
+      "RPC_HOST": "ethereum-wallet",
+      "RPC_PORT": "8545",
+      "INSTANCE_NAME": "ethereum-wallet",
+      "WS_SERVER": "http://ethstats:3000",
+      "WS_SECRET": "fiftieth-marry-patronize-barrack-parish-denim"
+    }
+  },
+  {
+    "name": "ethereum-etherbase",
+    "cwd": ".",
+    "script": "app.js",
+    "log_date_format": "YYYY-MM-DD HH:mm Z",
+    "merge_logs": false,
+    "watch": false,
+    "exec_interpreter": "node",
+    "exec_mode": "fork_mode",
+    "env": {
+      "NODE_ENV": "private",
+      "RPC_HOST": "ethereum-etherbase",
+      "RPC_PORT": "8545",
+      "INSTANCE_NAME": "ethereum-etherbase",
+      "WS_SERVER": "http://ethstats:3000",
+      "WS_SECRET": "fiftieth-marry-patronize-barrack-parish-denim"
+    }
+  }
+]
+```
+
+Now we launch the Ethereum Network Intelligence API:
+
+```sh
+docker run -d -P --name ethnetintel --network ethereum --network-alias ethnetintel -v $HOME/eth-net-intelligence-api/app.json:/opt/app.json immutability/eth-net-intelligence-api:latest
+```
+
+You can see the Ethereum Network Statistic by pointing your browser at `http://localhost:3000`
 
 ## Playground Ready!
 
