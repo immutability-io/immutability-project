@@ -5,7 +5,11 @@ How to play with Vault and Ethereum
 
 # AUDIENCE
 
-It is my experience that the Ethereum community and the community that uses tools like Vault are nearly disjoint sets. Therefore, I am trying to develop a set of recipes for installing both Ethereum and Vault. I expect the Vault folks may not need the Vault installation scripts and the Ethereum guys may not need the Ethereum installation scripts; but, both are provided - assuming that a basic set of dependencies are available.
+It is my experience that the Ethereum community and the community that uses HashiCorp tools (like Vault) are nearly disjoint sets. So, I am trying to develop a set of recipes for bridging this gap. I expect the Vault folks may not need the Vault installation scripts and the Ethereum guys may not need the Ethereum installation scripts; but, both are provided - assuming that a basic set of dependencies are available.
+
+Why should these 2 communities work together (or at least synergistically?) I believe that the blockchain revolution will be best realized as an outcome of the efforts of the Ethereum community. Ethereum is the healthiest, most innovative and least annoying of the various blockchain sects - their vision (a global computer rooted in a trustless ecosystem) is easily the most exciting. Ethereum re-defines *serverless*. And the HashiCorp community has codified the best ideas in the immutable infrastructure space.
+
+That the immutable ledger community hasn't joined forces with the immutable infrastructure community is fairly startling to me. Perhaps this will be a small step towards that synergy.
 
 **Note:** I am working on an article that walks through installation and demonstrates playing with these tools. I will link here when that is finished.
 
