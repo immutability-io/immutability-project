@@ -20,7 +20,8 @@ Since we are creating a Docker network and running several Docker containers, I 
 Running Portainer is pretty easy. First, you have to create a directory that you will mount for the persistence of Portainer's data. I use `$HOME/etc/portainer`. You can use whatever you like:
 
 ```sh
-$ docker run -d -p 9000:9000 --restart always -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/etc/portainer:/data portainer/portainer
+$ docker volume create portainer_data
+$ docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 ```
 
 Point your browser to `http://localhost:9000/#/dashboard` and you should see something like this:
