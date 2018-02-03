@@ -69,3 +69,7 @@ That's it for the dependencies, let's have some fun.
 
 1. [INSTALL VAULT AND VAULT-ETHEREUM PLUG-IN](./VAULT.md)
 1. [INSTALL ETHEREUM](./ETHEREUM.md)
+
+## Donations?
+
+Send ETH to 0x4169c9508728285e8A9f7945D08645Bb6b3576e5 and you will be blessed in the next life.

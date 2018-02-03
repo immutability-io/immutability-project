@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PLUGIN_VERSION="0.0.2"
-VAULT_VERSION="0.9.1"
+PLUGIN_VERSION="0.0.3"
+VAULT_VERSION="0.9.3"
 
 function print_help {
     echo "Usage: bash install.sh OPTIONS"
@@ -119,25 +119,24 @@ function move_plugin {
 function initialize {
   export VAULT_ADDR=https://localhost:8200
   export VAULT_CACERT=$HOME/etc/vault.d/root.crt
-  vault init -key-shares=5 -key-threshold=3 | tee ./vault.init > /dev/null
+  export VAULT_INIT=$(vault operator init -format=json)
   if [[ $? -eq 2 ]] ; then
     echo "Vault initialization failed!"
     exit 2
   fi
-  export VAULT_TOKEN=$(cat ./vault.init | grep '^Initial' | awk '{print $4}')
+  export VAULT_TOKEN=$(echo $VAULT_INIT | jq .root_token | tr -d '"')
   keybase encrypt $KEYBASE -m $VAULT_TOKEN -o ./"$KEYBASE"_VAULT_TOKEN.txt
   if [[ $? -eq 2 ]] ; then
     echo "Keybase encryption failed!"
     exit 2
   fi
-
-  COUNTER=0
-  cat ./vault.init | grep '^Unseal' | awk '{print $4}' | for key in $(cat -); do
-    vault unseal $key
+  for (( COUNTER=0; COUNTER<5; COUNTER++ ))
+  do
+    key=$(echo $VAULT_INIT | jq '.unseal_keys_hex['"$COUNTER"']' | tr -d '"')
+    vault operator unseal $key
     keybase encrypt $KEYBASE -m $key -o ./"$KEYBASE"_UNSEAL_"$COUNTER".txt
-    COUNTER=$((COUNTER + 1))
   done
-  rm ./vault.init
+  unset VAULT_INIT
 }
 
 function install_plugin {
@@ -194,8 +193,8 @@ mkdir -p $HOME/etc/vault.d/data
 
 gencerts
 
-grab_plugin $PLUGIN_OS $PLUGIN_VERSION
-move_plugin $PLUGIN_OS
+#grab_plugin $PLUGIN_OS $PLUGIN_VERSION
+#move_plugin $PLUGIN_OS
 grab_hashitool vault $VAULT_VERSION $PLUGIN_OS
 
 cat << EOF > $HOME/etc/vault.d/vault.hcl
@@ -235,7 +234,7 @@ nohup /usr/local/bin/vault server -config $HOME/etc/vault.d/vault.hcl &> /dev/nu
 sleep 10
 
 initialize
-install_plugin
+#install_plugin
 unset VAULT_TOKEN
 
 echo -e "$HOME/.${shell_profile} has been modified."
