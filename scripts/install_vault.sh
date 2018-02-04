@@ -149,7 +149,7 @@ function install_plugin {
     exit 2
   fi
 
-  vault mount -path="ethereum" -plugin-name="ethereum-plugin" plugin
+  vault secrets enable -path=ethereum -plugin-name=ethereum-plugin plugin
   if [[ $? -eq 2 ]] ; then
     echo "Failed to mount Ethereum plugin!"
     exit 2
@@ -193,8 +193,8 @@ mkdir -p $HOME/etc/vault.d/data
 
 gencerts
 
-#grab_plugin $PLUGIN_OS $PLUGIN_VERSION
-#move_plugin $PLUGIN_OS
+grab_plugin $PLUGIN_OS $PLUGIN_VERSION
+move_plugin $PLUGIN_OS
 grab_hashitool vault $VAULT_VERSION $PLUGIN_OS
 
 cat << EOF > $HOME/etc/vault.d/vault.hcl
