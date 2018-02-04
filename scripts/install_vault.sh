@@ -234,7 +234,7 @@ nohup /usr/local/bin/vault server -config $HOME/etc/vault.d/vault.hcl &> /dev/nu
 sleep 10
 
 initialize
-#install_plugin
+install_plugin
 unset VAULT_TOKEN
 
 echo -e "$HOME/.${shell_profile} has been modified."
