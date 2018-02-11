@@ -38,6 +38,8 @@ $ docker network create ethereum
 
 The second thing we have to setup is the Ethereum `bootnode`. For those familiar with the HashiStack, the Ethereum bootnode is similar to [Consul](https://www.consul.io/) -  a service discovery mechanism. (*There is a long discussion that needs to be had about decentralization and the dependence on a few central bootnodes in the Ethereum ecosystem; but, this is not the place for that discussion.*)
 
+### Chain IDs
+
 **NOTE**: The chain id (or network ID) for the **private** Ethereum network that this Docker image will manage is `1977`. (This is the year my wife was born.) This number will be needed later. Here is a list of the current known public chain IDs:
 
 * `0`: Olympic, Ethereum public pre-release testnet
