@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PLUGIN_VERSION="0.0.3"
-VAULT_VERSION="0.9.3"
+PLUGIN_VERSION="0.0.4"
+VAULT_VERSION="0.9.5"
 
 function print_help {
     echo "Usage: bash install.sh OPTIONS"
@@ -47,7 +47,6 @@ organizationalUnitName = optional
 [ myca_extensions ]
 basicConstraints = CA:false
 subjectKeyIdentifier = hash
-authorityKeyIdentifier = keyid:always
 subjectAltName = @alt_names
 keyUsage = digitalSignature,keyEncipherment
 extendedKeyUsage = serverAuth
@@ -86,7 +85,7 @@ function grab_hashitool {
     exit 2
   fi
   unzip ./$1.zip
-  mv ./$1 /usr/local/bin/$1
+  sudo mv ./$1 /usr/local/bin/$1
   rm ./$1_$2_SHA256SUMS.sig
   rm ./$1_$2_SHA256SUMS
   rm ./$1.zip
@@ -199,7 +198,7 @@ grab_hashitool vault $VAULT_VERSION $PLUGIN_OS
 
 cat << EOF > $HOME/etc/vault.d/vault.hcl
 "default_lease_ttl" = "24h"
-
+"disable_mlock" = "true"
 "max_lease_ttl" = "24h"
 
 "backend" "file" {
