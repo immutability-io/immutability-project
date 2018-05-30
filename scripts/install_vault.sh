@@ -85,7 +85,11 @@ function grab_hashitool {
     exit 2
   fi
   unzip ./$1.zip
-  sudo mv ./$1 /usr/local/bin/$1
+  if [ $3 == "linux" ] ; then
+    sudo mv ./$1 /usr/local/bin/$1
+  else
+    mv ./$1 /usr/local/bin/$1
+  fi
   rm ./$1_$2_SHA256SUMS.sig
   rm ./$1_$2_SHA256SUMS
   rm ./$1.zip
@@ -238,13 +242,18 @@ unset VAULT_TOKEN
 
 echo -e "$HOME/.${shell_profile} has been modified."
 echo -e "============================================="
-echo -e "The following were set in your environment:"
+echo -e "The following were set in your shell profile:"
 echo -e "export VAULT_ADDR=$VAULT_ADDR"
 echo -e "export VAULT_CACERT=$VAULT_CACERT"
+echo -e "You need to source your shell profile or export these for them to take effect."
 echo -e "============================================="
-echo -e "You need to source your profile or export these for them to take effect."
-echo -e "Also, you need execute:"
+echo -e "Your root token is below. You need to export this to be authenticated (as root):"
 echo -e "export VAULT_TOKEN=$(keybase decrypt -i $KEYBASE""_VAULT_TOKEN.txt)" 
+echo -e "The root token is NOT set in your shell profile!"
+echo -e "============================================="
+echo -e "You will need to execute this to authenticate as root in the future:"
+echo 'export VAULT_TOKEN=$(keybase decrypt -i '$KEYBASE'_VAULT_TOKEN.txt)'
+
 echo -e "=============================================\n"
 echo -e "Please read README.md for your next steps.\n"
 
