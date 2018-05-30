@@ -244,7 +244,7 @@ echo -e "export VAULT_CACERT=$VAULT_CACERT"
 echo -e "============================================="
 echo -e "You need to source your profile or export these for them to take effect."
 echo -e "Also, you need execute:"
-echo -e "export VAULT_TOKEN=$(keybase decrypt -i $KEYBASE_VAULT_TOKEN.txt)" 
+echo -e "export VAULT_TOKEN=$(keybase decrypt -i $KEYBASE""_VAULT_TOKEN.txt)" 
 echo -e "=============================================\n"
 echo -e "Please read README.md for your next steps.\n"
 
