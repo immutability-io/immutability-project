@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PLUGIN_VERSION="0.0.4"
-VAULT_VERSION="0.9.5"
+VAULT_VERSION="0.10.1"
 
 function print_help {
     echo "Usage: bash install.sh OPTIONS"
@@ -237,9 +237,14 @@ install_plugin
 unset VAULT_TOKEN
 
 echo -e "$HOME/.${shell_profile} has been modified."
-echo "============================================="
-echo "The following were set in your environment:"
-echo "export VAULT_ADDR=$VAULT_ADDR"
+echo -e "============================================="
+echo -e "The following were set in your environment:"
+echo -e "export VAULT_ADDR=$VAULT_ADDR"
 echo -e "export VAULT_CACERT=$VAULT_CACERT"
+echo -e "============================================="
+echo -e "You need to source your profile or export these for them to take effect."
+echo -e "Also, you need execute:"
+echo -e "export VAULT_TOKEN=$(keybase decrypt -i $KEYBASE_VAULT_TOKEN.txt)" 
 echo -e "=============================================\n"
 echo -e "Please read README.md for your next steps.\n"
+
